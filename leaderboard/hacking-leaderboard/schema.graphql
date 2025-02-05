@@ -16,13 +16,9 @@ type RewardWithdrawn @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
-type ScoreSubmitted @entity(immutable: true) {
-  id: Bytes!
-  player: Bytes! # address
-  score: BigInt! # uint256
-  reward: BigInt! # uint256
-  timestamp: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type Player @entity(immutable: false) {
+  id: Bytes! # address
+  score: BigInt!
+  reward: BigInt!
+  timestamp: BigInt!
 }

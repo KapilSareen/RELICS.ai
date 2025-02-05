@@ -1,3 +1,4 @@
+import { BigInt } from "@graphprotocol/graph-ts"
 import {
   PrizePoolFunded as PrizePoolFundedEvent,
   RewardWithdrawn as RewardWithdrawnEvent,
@@ -6,7 +7,7 @@ import {
 import {
   PrizePoolFunded,
   RewardWithdrawn,
-  ScoreSubmitted
+  Player
 } from "../generated/schema"
 
 export function handlePrizePoolFunded(event: PrizePoolFundedEvent): void {
@@ -24,6 +25,13 @@ export function handlePrizePoolFunded(event: PrizePoolFundedEvent): void {
 }
 
 export function handleRewardWithdrawn(event: RewardWithdrawnEvent): void {
+  let player = Player.load(event.params.player)
+
+  if (player == null) {
+    return
+  }
+  player.reward = player.reward.minus(event.params.amount)
+
   let entity = new RewardWithdrawn(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
@@ -35,20 +43,20 @@ export function handleRewardWithdrawn(event: RewardWithdrawnEvent): void {
   entity.transactionHash = event.transaction.hash
 
   entity.save()
+
 }
 
 export function handleScoreSubmitted(event: ScoreSubmittedEvent): void {
-  let entity = new ScoreSubmitted(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.player = event.params.player
-  entity.score = event.params.score
-  entity.reward = event.params.reward
-  entity.timestamp = event.params.timestamp
+  let entity = Player.load(event.params.player)
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  if (entity == null) {
+    entity = new Player(event.params.player)
+    entity.reward = new BigInt(0)
+  }
+
+  entity.score = event.params.score
+  entity.reward = entity.reward.plus(event.params.reward)
+  entity.timestamp = event.params.timestamp
 
   entity.save()
 }

@@ -18,7 +18,7 @@ dataSources:
       entities:
         - PrizePoolFunded
         - RewardWithdrawn
-        - ScoreSubmitted
+        - Player
       abis:
         - name: Leaderboard
           file: ./abis/Leaderboard.json
