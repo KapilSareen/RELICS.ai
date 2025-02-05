@@ -2,3 +2,5 @@ myenv
 **/myenv
 .env
 **/wallet_data.txt
+venv
+**/venv

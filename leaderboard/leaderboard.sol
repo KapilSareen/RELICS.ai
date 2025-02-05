@@ -4,11 +4,15 @@ pragma solidity ^0.8.0;
 contract Leaderboard {
     address public owner; 
     mapping(address => bool) public authorizedUsers;
-    event ScoreSubmitted(address indexed player, uint256 score, uint256 timestamp);
+    mapping(address => PlayerScore) public leaderboard; // Stores player scores
+
+    event ScoreSubmitted(address indexed player, uint256 score, uint256 reward, uint256 timestamp);
+    event PrizePoolFunded(address indexed sender, uint256 amount);
+    event RewardWithdrawn(address indexed player, uint256 amount);
 
     struct PlayerScore {
-        address player;
         uint256 score;
+        uint256 reward;
     }
 
     constructor() {
@@ -16,28 +20,46 @@ contract Leaderboard {
     }
 
     modifier onlyAuthorized() {
-        require(authorizedUsers[msg.sender], "You are not authorized to update scores.");
+        require(authorizedUsers[msg.sender], "Not authorized.");
         _;
     }
 
     function setAuthorizedUser(address user) public {
-        require(msg.sender == owner, "Only the owner can set authorized users.");
+        require(msg.sender == owner, "Only owner can set authorized users.");
         authorizedUsers[user] = true;
     }
 
-    PlayerScore[] public leaderboard;
-
-    
-
-    function submitScore(address user, uint256 _score) public onlyAuthorized {
+    function submitScore(uint256 _score, uint256 _reward) public onlyAuthorized {
         require(_score > 0, "Score must be greater than 0");
 
-        leaderboard.push(PlayerScore({
-            player: user,
-            score: _score
-        }));
+        uint256 old_reward = leaderboard[msg.sender].reward;
 
-        emit ScoreSubmitted(msg.sender, _score, block.timestamp);
+        leaderboard[msg.sender] = PlayerScore({
+            score: _score,
+            reward: _reward + old_reward
+        });
+
+        emit ScoreSubmitted(msg.sender, _score, _reward, block.timestamp);
+    }
+
+    function fundPrizePool() external payable {
+        require(msg.value > 0, "Must send ETH to fund the prize pool");
+        emit PrizePoolFunded(msg.sender, msg.value);
+    }
+
+    function withdrawReward() external {
+        uint256 reward = leaderboard[msg.sender].reward;
+        require(reward > 0, "No rewards available for withdrawal");
+        require(address(this).balance >= reward, "Not enough funds");
+
+        leaderboard[msg.sender].reward = 0;
+        (bool success, ) = payable(msg.sender).call{value: reward}("");
+        require(success, "Withdraw failed");
+
+        emit RewardWithdrawn(msg.sender, reward);
+    }
+
+    receive() external payable {
+        emit PrizePoolFunded(msg.sender, msg.value); // Log funding for The Graph
     }
 }
-
