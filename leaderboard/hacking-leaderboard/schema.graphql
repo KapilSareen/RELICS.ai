@@ -1,0 +1,24 @@
+type PrizePoolFunded @entity(immutable: true) {
+  id: Bytes!
+  sender: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RewardWithdrawn @entity(immutable: true) {
+  id: Bytes!
+  player: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Player @entity(immutable: false) {
+  id: Bytes! # address
+  score: BigInt!
+  reward: BigInt!
+  timestamp: BigInt!
+}
