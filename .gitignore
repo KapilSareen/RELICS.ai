@@ -2,3 +2,6 @@ myenv
 **/myenv
 .env
 **/wallet_data.txt
+
+__pycache__
+**/__pycache__
