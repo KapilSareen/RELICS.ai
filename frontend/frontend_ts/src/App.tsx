@@ -11,8 +11,8 @@ function App() {
     
     <Providers>
       {/* <Landing/> */}
-      {/* <Story/> */}
-      <Play/>
+      <Story/>
+      {/* <Play/> */}
       {/* <Chat/> */}
       </Providers>
 

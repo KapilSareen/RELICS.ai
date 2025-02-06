@@ -15,7 +15,7 @@ function play() {
             <div></div>
             Agent</div>
         <h3>Do you think you have solved the challenge</h3>
-        <button>Yes</button>
+        <button>Solved?</button>
     </div>
     <Chat/>
 </div>
