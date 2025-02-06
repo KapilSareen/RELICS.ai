@@ -60,7 +60,7 @@ def firstStory():
 
     # Print or return the dynamically generated story
     # print(response.content)
-    return response.content.split("</think>\n\n")[1]
+    return random_style, response.content.split("</think>\n\n")[1]
 
 def secondStory():
     global random_style
@@ -97,4 +97,4 @@ def secondStory():
         HumanMessage(content="Describe the game events in 3 lines based on the player's progress.")]
     )
     # print(response2.content)
-    return response2.content.split("</think>\n\n")[1]
+    return random_style, response2.content.split("</think>\n\n")[1]
