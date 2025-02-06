@@ -60,6 +60,8 @@ def login():
         wallet_filename = f"wallets/wallet_{public_address}.txt"
         os.makedirs('wallets', exist_ok=True)
         session['wallet_file'] = wallet_filename
+        # Initialize the user's score to 1000 upon login.
+        session['score'] = 1000
 
         return jsonify({"message": "Login successful"}), 200
     else:
@@ -87,6 +89,10 @@ def chat():
     if not prompt:
         return jsonify({"error": "Missing 'prompt' in request"}), 400
 
+    if 'score' not in session:
+        session['score'] = 1000
+    session['score'] = session['score'] - 1
+
     response_text = ""
 
     try:
@@ -100,6 +106,23 @@ def chat():
         return jsonify({"error": str(e)}), 500
 
     return jsonify({"response": response_text.strip()})
+
+@app.route('/score', methods=['GET'])
+@login_required
+def score():
+    if 'score' not in session:
+        session['score'] = 1000
+    return jsonify({"score": session['score']}), 200
+
+@app.route('/wallet_details', methods=['GET'])
+@login_required
+def wallet_details():
+    wallet_file = session.get('wallet_file')
+    if not wallet_file or not os.path.exists(wallet_file):
+        return jsonify({"error": "Wallet file not found"}), 404
+    with open(wallet_file, "r") as f:
+        wallet_data = f.read()
+    return jsonify({"wallet_details": wallet_data}), 200
 
 @app.route('/logout', methods=['POST'])
 @login_required

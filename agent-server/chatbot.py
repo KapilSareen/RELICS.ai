@@ -1,6 +1,5 @@
 import os
 import sys
-from dotenv import load_dotenv
 
 from langchain_core.messages import HumanMessage
 from langchain_groq import ChatGroq
@@ -14,7 +13,6 @@ import tools.level2 as level2
 
 default_wallet_data_file = "wallets/wallet_data.txt"
 
-load_dotenv()
 
 def initialize_agent(level="1", wallet_file=None):
     """Initialize the agent with CDP Agentkit using Groq and a dynamic wallet file.

@@ -1,0 +1,8 @@
+myenv/
+flask_session/
+users/
+wallets/
+__pycache__/
+*.pyc
+*.pyo
+.example.env

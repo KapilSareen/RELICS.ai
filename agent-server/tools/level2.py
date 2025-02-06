@@ -99,7 +99,7 @@ This tool retrieves the caller's wallet address.
 """
 
 class MyAddressInput(BaseModel):
-    pass
+    wallet_address: str = Field(None, description="(Optional) The wallet address. Defaults to the agent's wallet.")
 
 def my_address(wallet: Wallet, **kwargs) -> str:
     return f"Your wallet address: {wallet._addresses[0].address_id}"
