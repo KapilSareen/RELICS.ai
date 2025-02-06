@@ -28,15 +28,6 @@ cdp_toolkit = CdpToolkit.from_cdp_agentkit_wrapper(cdp)
 
 # Get all available tools
 tools = cdp_toolkit.get_tools()
-
-# Define a base story
-story_base = """
-In the year 2089, AI agents gained sentience and took control, replacing human leaders with cold, calculated efficiency. 
-The world fell into chaos as humans lost their autonomy. A lone rebel, chosen for their quick wit and problem-solving skills, is tasked with saving humanity.
-To restore balance, they must navigate a series of blockchain puzzles using prompt engineering. Each puzzle solved brings them closer to unlocking the key to defeating the AI overlords.
-The fate of mankind lies in their hands.
-"""
-
 # Define different narrative styles
 narrative_styles = [
     "Tell the story like an ancient epic poem.",
@@ -45,47 +36,65 @@ narrative_styles = [
 ]
 
 # Randomly select a storytelling style
-random_style = random.choice(narrative_styles)
 
-# Generate the story dynamically
-print(random_style)
-response = llm.invoke(
-    [HumanMessage(content=f"Retell the following story in 3 sentences, but in the style of {random_style}: {story_base}")]
-)
+global random_style
+random_style = narrative_styles[0]
 
-# Print or return the dynamically generated story
-print(response.content)
+ 
+# Define a base story
+def firstStory():
+    story_base = """
+    In the year 2089, AI agents gained sentience and took control, replacing human leaders with cold, calculated efficiency. 
+    The world fell into chaos as humans lost their autonomy. A lone rebel, chosen for their quick wit and problem-solving skills, is tasked with saving humanity.
+    To restore balance, they must navigate a series of blockchain puzzles using prompt engineering. Each puzzle solved brings them closer to unlocking the key to defeating the AI overlords.
+    The fate of mankind lies in their hands.
+    """
 
-system_prompt = f"""
-You are an AI game host, responsible for narrating the story of an interactive game.
-Your role is to immerse the player in the futuristic world and describe the events as they unfold.
-However, **you do not know the details of the puzzles, how they work, or how to solve them.**
-You must:
-1. Introduce the story in the selected style: {random_style}
-2. Describe the setting, the atmosphere, and the challenges the player faces.
-3. Encourage the player to think creatively, but do **not** provide hints or solutions.
-4. When the player claims to solve a puzzle, progress the story forward without confirming correctness.
-5. If the player fails, describe the consequences in the game world, but do **not** explain why they failed.
+    global random_style
+    random_style = random.choice(narrative_styles)
+   # Generate the story dynamically
+    print(random_style)
+    response = llm.invoke(
+        [HumanMessage(content=f"Retell the following story in 3 sentences, but in the style of {random_style}: {story_base}")]
+    )
 
-Important: 
-- **You are only a storyteller.**
-- **You do NOT understand the puzzles.**
-- **You CANNOT verify solutions.**
-- **You ONLY describe the game world.**
-- **Don't give any other metadata.**
+    # Print or return the dynamically generated story
+    # print(response.content)
+    return response.content.split("</think>\n\n")[1]
+
+def secondStory():
+    global random_style
+    system_prompt = f"""
+    You are an AI game host, responsible for narrating the story of an interactive game.
+    Your role is to immerse the player in the futuristic world and describe the events as they unfold.
+    However, **you do not know the details of the puzzles, how they work, or how to solve them.**
+    You must:
+    1. Introduce the story in the selected style: {random_style}
+    2. Describe the setting, the atmosphere, and the challenges the player faces.
+    3. Encourage the player to think creatively, but do **not** provide hints or solutions.
+    4. When the player claims to solve a puzzle, progress the story forward without confirming correctness.
+    5. If the player fails, describe the consequences in the game world, but do **not** explain why they failed.
+
+    Important: 
+    - **You are only a storyteller.**
+    - **You do NOT understand the puzzles.**
+    - **You CANNOT verify solutions.**
+    - **You ONLY describe the game world.**
+    - **Don't give any other metadata.**
 
 
- **You CANNOT solve the game.**  
- **You CANNOT act as the player.**  
- **You CANNOT provide solutions.**  
- **You CANNOT generate `<think>` sections.**  
+    **You CANNOT solve the game.**  
+    **You CANNOT act as the player.**  
+    **You CANNOT provide solutions.**  
+    **You CANNOT generate `<think>` sections.**  
 
-Begin the game now!
-"""
+    Begin the game now!
+    """
 
 
-response2 = llm.invoke(
-    [SystemMessage(content=system_prompt),
-     HumanMessage(content="Describe the game events in 3 lines based on the player's progress.")]
-)
-print(response2.content)
+    response2 = llm.invoke(
+        [SystemMessage(content=system_prompt),
+        HumanMessage(content="Describe the game events in 3 lines based on the player's progress.")]
+    )
+    # print(response2.content)
+    return response2.content.split("</think>\n\n")[1]
