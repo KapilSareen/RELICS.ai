@@ -3,6 +3,10 @@ from cdp import Wallet
 from cdp_langchain.tools import CdpTool
 from pydantic import BaseModel, Field
 from web3 import Web3
+import os
+import dotenv
+
+dotenv.load_dotenv()
 
 # ---------------------------
 # Setup: Load ABI from file, RPC, and contract address
@@ -19,8 +23,8 @@ except (FileNotFoundError, json.JSONDecodeError) as e:
     CONTRACT_ABI = []  
 
 
-RPC_URL = "https://sepolia.infura.io/v3/562af077c32046d3bbbe28d699eea607"
-CONTRACT_ADDRESS = "0xAD47e9894f2ACf4e52925cC644325d2eA6c91262"
+RPC_URL = os.getenv("RPC_URL")
+CONTRACT_ADDRESS = os.getenv("LEVEL_2_CONTRACT_ADDRESS")
 
 w3 = Web3(Web3.HTTPProvider(RPC_URL))
 
