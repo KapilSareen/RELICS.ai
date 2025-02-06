@@ -2,10 +2,10 @@
 .chat-container {
     position: absolute;
     top: 15%;
-    right: 10%;
-    width: 100%;
+    right: 5%;
+    width: 40%;
     height: 70%;
-    max-width: 800px;
+    /* max-width: 700px; */
     margin: 20px auto;
     display: flex;
     flex-direction: column;

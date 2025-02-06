@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './StoryComponent.css';
+import Navbar from './Navbar'
+import { background } from '@coinbase/onchainkit/theme';
+import Typical from "react-typical";
+
+
 
 const StoryComponent = () => {
     const [storyIndex, setStoryIndex] = useState(1);
@@ -12,6 +17,10 @@ const StoryComponent = () => {
         "Each puzzle solved brings them one step closer to reclaiming freedom.",
         "But the journey is fraught with challenges, and the fate of mankind rests in their hands."
     ];
+    // var Typewriter = new Typewriter('#typewriter', {
+    //     strings: ['Hello', 'World'],
+    //     autoStart: true,
+    //   });
     const videoRef = useRef(null)
     useEffect(() => {
         setText(storyText[storyIndex])
@@ -32,13 +41,27 @@ const StoryComponent = () => {
 
     return (
         <div className="story-container">
+            <Navbar style={{background:"black"}}/>
             <video key={storyIndex} ref={videoRef} className="background-video" autoPlay loop muted>
                 <source src={`/v${storyIndex}.mp4`} type="video/mp4" />
             </video>
-            <div className="story-content">
+            <img src='/box.svg'>
+            </img>
+            <p className='text'>
+            <Typical
+        steps={[
+          `${text}`, 5000,
+        ]}
+        wrapper="span"
+      />
+            </p>
+            <button className="next-btn" onClick={handleNext}>Next</button>
+            
+
+            {/* <div className="story-content">
                 <p className='text'>{text}</p>
                 <button className="next-btn" onClick={handleNext}>Next</button>
-            </div>
+            </div> */}
         </div>
     );
 };
