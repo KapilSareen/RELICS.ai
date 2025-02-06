@@ -6,13 +6,7 @@
     gap: 3vw;
 }
 .guide_detail{
-    img {
-        position: relative;
-        height: 7vw;
-        width: 7vw;
-        border-radius: 50%;
-        border: 1px solid rgb(124, 99, 29) ;
-    }
+   
     div {
         background-color: black;
         width: 7vw;
@@ -21,6 +15,15 @@
         text-align: center;
         margin: 3vw auto;
     }
+}
+.guide_img {
+    
+        position: relative;
+        height: 7vw;
+        width: 7vw;
+        border-radius: 50%;
+        border: 1px solid rgb(124, 99, 29) ;
+    
 }
 .guide_text{
         width: 35vw;

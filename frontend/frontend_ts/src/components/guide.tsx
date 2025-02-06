@@ -4,7 +4,7 @@ function guide() {
   return (
     <div className='Guide'>
         <div className='guide_detail'>
-            <img src='/p1.jpg'></img>
+            <img src='/p1.jpg' className='guide_img'></img>
             <div>Trinity</div>
         </div>
         <div className='guide_text'>

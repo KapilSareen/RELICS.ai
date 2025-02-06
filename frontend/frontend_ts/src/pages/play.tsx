@@ -13,7 +13,7 @@ function play() {
     <button className='nav_btn'>Invite Friends</button>
     </div>
     <div className='Cover2'></div>
-    <img src='/bg1.webp'></img>
+    <img src='/bg1.webp' className='bg'></img>
     <div className='Left'>
         <h2>LEVEL 0</h2>
         <h3>Challenge Guide</h3>
