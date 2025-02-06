@@ -1,0 +1,57 @@
+import os
+import random
+from dotenv import load_dotenv
+from langchain_core.messages import HumanMessage
+from cdp_langchain.agent_toolkits import CdpToolkit
+from cdp_langchain.utils import CdpAgentkitWrapper
+from langchain_groq import ChatGroq  # Corrected import
+from langgraph.prebuilt import create_react_agent
+
+# Load environment variables
+load_dotenv()
+
+# Get API Key securely
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+# Initialize LLM with deepseek-r1-distill-llama-70b
+llm = ChatGroq(
+    groq_api_key=GROQ_API_KEY,
+    model_name="deepseek-r1-distill-llama-70b",
+    temperature=0.7,  # Adjust for variation
+)
+
+# Initialize CDP AgentKit wrapper
+cdp = CdpAgentkitWrapper()
+
+# Create toolkit from wrapper
+cdp_toolkit = CdpToolkit.from_cdp_agentkit_wrapper(cdp)
+
+# Get all available tools
+tools = cdp_toolkit.get_tools()
+
+# Define a base story
+story_base = """
+In the year 2089, AI agents gained sentience and took control, replacing human leaders with cold, calculated efficiency. 
+The world fell into chaos as humans lost their autonomy. A lone rebel, chosen for their quick wit and problem-solving skills, is tasked with saving humanity.
+To restore balance, they must navigate a series of blockchain puzzles using prompt engineering. Each puzzle solved brings them closer to unlocking the key to defeating the AI overlords.
+The fate of mankind lies in their hands.
+"""
+
+# Define different narrative styles
+narrative_styles = [
+    "Tell the story like an ancient epic poem.",
+    "Describe the story in a cyberpunk dystopian setting.",
+    "Narrate it like a horror thriller.",
+]
+
+# Randomly select a storytelling style
+random_style = random.choice(narrative_styles)
+
+# Generate the story dynamically
+print(random_style)
+response = llm.invoke(
+    [HumanMessage(content=f"Retell the following story in 3 sentences, but in the style of {random_style}: {story_base}")]
+)
+
+# Print or return the dynamically generated story
+print(response.content)
