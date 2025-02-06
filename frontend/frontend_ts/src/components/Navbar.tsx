@@ -12,7 +12,7 @@ function Navbar() {
   return (
     <div className='Navbar'>
         <div className='Logo'>
-            RELICS
+            RELICS.ai | AI + Web3 challenge
         </div>  
         <WalletComponents/>
        

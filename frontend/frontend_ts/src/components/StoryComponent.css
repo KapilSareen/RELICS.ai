@@ -7,8 +7,9 @@
     overflow: hidden;
     video {
         width: 100vw;
-        height: auto;
-        transform: translateY(-40px);
+        height: 100dvh;
+        object-fit: cover;
+        /* transform: translateY(-40px); */
     }
 }
 .story-content {
