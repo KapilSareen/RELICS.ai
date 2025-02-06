@@ -4,3 +4,6 @@ myenv
 **/wallet_data.txt
 venv
 **/venv
+flask_session
+users/
+wallets/
