@@ -13,6 +13,36 @@
     }
 
 }
+.extra_nav {
+    position: absolute;
+    width: 30%;
+    top: 0;
+    left: 60%;
+    z-index: 20;
+    .nav_btn {
+        background-color:rgb(124, 99, 29) ;
+        text-align: center;
+        margin-left: 5%;;
+        /* width: 10vw; */
+        padding: 0px 4px;
+        margin-top: 3%;
+        border-radius: 10px;
+        color: black;
+        z-index: 20;
+        font-size: 1vw;
+        font-family: "Tektur", serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
+        font-style: normal;
+        font-variation-settings:
+          "wdth" 100;
+    }
+    .nav_btn:hover{
+        background-color:rgb(227, 169, 10) ;
+
+    }
+
+}
 .Cover2 {
     width: 100vw;
     height: 100dvh;
@@ -34,7 +64,7 @@
 
     h2 {
         text-align: left;
-        color: rgb(124, 99, 29);
+        color: rgb(238, 177, 11);
         z-index: 20;
         font-size: 3vw;
         font-family: "Tektur", serif;

@@ -7,6 +7,11 @@ function play() {
   return (
     <div className='play'>
     <Navbar/>
+    <div className='extra_nav'>
+    <button className='nav_btn'>Join Community</button>
+    <button className='nav_btn'>Leaderboard</button>
+    <button className='nav_btn'>Invite Friends</button>
+    </div>
     <div className='Cover2'></div>
     <img src='/bg1.webp'></img>
     <div className='Left'>

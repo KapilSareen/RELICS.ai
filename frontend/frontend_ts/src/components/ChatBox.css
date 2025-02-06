@@ -9,7 +9,7 @@
     margin: 20px auto;
     display: flex;
     flex-direction: column;
-    border: 1px solid #cccccc73;
+    border: 1px solid rgb(124, 99, 29) ;
     border-radius: 10px;
     overflow: hidden;
     background: #2e3031dd;
@@ -19,12 +19,12 @@
 
 /* Chat Header */
 .chat-header {
-    background: #2e3031dd;
-    color: white;
-    padding: 15px;
-    text-align: center;
+    background: transparent;
+    color: rgb(238, 177, 11) ;
+    padding: 10px 30px;
+    text-align: left;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 1.2vw;
 }
 
 /* Chat Messages */
@@ -39,7 +39,7 @@
     display: flex;
     flex-direction: column;
     background: #0a0909bf;
-    border: 0.3px solid #cccccc73;
+    border: 0.3px solid rgb(124, 99, 29) ;
 }
 
 .chat-box::-webkit-scrollbar {
@@ -103,13 +103,13 @@
     padding: 10px;
     color: white;
     /* border-top: 1px solid #ccc; */
-    background: #2e3031dd;
+    background: transparent;
 }
 
 .chat-input input {
     flex: 1;
     padding: 10px;
-    border: 1px solid #cccccc73;
+    border: 1px solid rgb(124, 99, 29) ;
     border-radius: 6px;
     margin-right: 10px;
     outline: none;
@@ -119,7 +119,7 @@
 
 .chat-input button {
     background: #2e3031dd;
-    border: 1px solid #cccccc73;
+    border: 1px solid rgb(124, 99, 29) ;
     padding: 10px;
     border-radius: 6px;
     cursor: pointer;

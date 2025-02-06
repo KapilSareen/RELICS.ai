@@ -11,12 +11,13 @@
         height: 7vw;
         width: 7vw;
         border-radius: 50%;
+        border: 1px solid rgb(124, 99, 29) ;
     }
     div {
         background-color: black;
         width: 7vw;
         border-radius: 30px;
-        border: 1px solid white;
+        border: 1px solid rgb(124, 99, 29) ;
         text-align: center;
         margin: 3vw auto;
     }
@@ -27,7 +28,7 @@
         background-color: black;
         z-index: 20;
         border-radius: 10px;
-        border: 1px solid white;
+        border: 1px solid rgb(124, 99, 29) ;
 
         p {
             color: white;
