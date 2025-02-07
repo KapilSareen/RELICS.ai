@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ChatBox.css';
+import { getAddress } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
 
 const ChatBox = () => {
     const [messages, setMessages] = useState([]);
@@ -9,7 +12,39 @@ const ChatBox = () => {
 
     const userAvatar = "https://i.pravatar.cc/40"; // Random user avatar
     const botAvatar = "https://cdn-icons-png.flaticon.com/512/4712/4712104.png"; // AI bot icon
-
+    let address = "";
+    const hasRegistered = useRef(false);
+  
+    const register = async () => {
+      address = await getAddress({ name: 'zizzamia.base.eth', chain: base });
+      console.log(`${import.meta.env.VITE_PUBLIC_AGENT_URL}/register`);
+      const a = await fetch(`${import.meta.env.VITE_PUBLIC_AGENT_URL}/register`, {
+        method: "POST",
+        credentials: 'include',
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ "public_address": address }),
+      });
+      const cookies = a.headers.get('set-cookie');
+      console.log(cookies);
+  
+      const b = await fetch(`${import.meta.env.VITE_PUBLIC_AGENT_URL}/login`, {
+        method: "POST",
+        credentials: 'include',
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ "public_address": address }),
+      });
+  
+  
+      console.log(address, b)
+      console.log("-------------------");
+    };
+  
+    useEffect(() => {
+      if (!hasRegistered.current) {
+        register();
+        hasRegistered.current = true;
+      }
+    }, []);
     const sendMessage = async () => {
         if (!input.trim()) return;
 
@@ -19,14 +54,19 @@ const ChatBox = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('https://api.example.com/ai', { // Replace with actual API
+            const response = await fetch(`${import.meta.env.VITE_PUBLIC_AGENT_URL}/chat`, { // Replace with actual API
                 method: 'POST',
+                credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: input }),
+                body: JSON.stringify({
+                     "prompt": input,
+                     "level": 1,
+                 }),
             });
-
+            console.log(response)
             const data = await response.json();
-            const aiMessage = { role: 'ai', content: data.reply, avatar: botAvatar };
+            console.log(data)
+            const aiMessage = { role: 'ai', content: data.response, avatar: botAvatar };
 
             setMessages(prev => [...prev, aiMessage]);
         } catch (error) {

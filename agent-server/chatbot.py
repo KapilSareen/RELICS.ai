@@ -1,23 +1,26 @@
 import os
 import sys
-from dotenv import load_dotenv
 
 from langchain_core.messages import HumanMessage
 from langchain_groq import ChatGroq
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
 
-from cdp_langchain.agent_toolkits import CdpToolkit
 from cdp_langchain.utils import CdpAgentkitWrapper
 
 import tools.level1 as level1
+import tools.level2 as level2
 
-wallet_data_file = "wallet_data.txt"
+default_wallet_data_file = "wallets/wallet_data.txt"
 
-load_dotenv()
 
-def initialize_agent():
-    """Initialize the agent with CDP Agentkit using Groq."""
+def initialize_agent(level="1", wallet_file=None):
+    """Initialize the agent with CDP Agentkit using Groq and a dynamic wallet file.
+    
+    The function reads wallet data from the provided wallet_file (if available),
+    then passes it into the agent. When exporting the wallet, the resulting data
+    is saved to the same wallet_file (ensuring per-session wallet data persistence).
+    """
     llm = ChatGroq(
         groq_api_key=os.environ.get("GROQ_API_KEY"),
         model_name="deepseek-r1-distill-llama-70b", 
@@ -25,39 +28,30 @@ def initialize_agent():
     )
 
     wallet_data = None
-    if os.path.exists(wallet_data_file):
-        with open(wallet_data_file) as f:
+    if wallet_file and os.path.exists(wallet_file):
+        with open(wallet_file) as f:
             wallet_data = f.read()
+    
     values = {}
     if wallet_data is not None:
         values = {"cdp_wallet_data": wallet_data}
 
     agentkit = CdpAgentkitWrapper(**values)
-    wallet_data = agentkit.export_wallet()
-    with open(wallet_data_file, "w") as f:
-        f.write(wallet_data)
+    exported_wallet_data = agentkit.export_wallet()
+    
+    save_file = wallet_file if wallet_file is not None else default_wallet_data_file
+    os.makedirs(os.path.dirname(save_file), exist_ok=True)
+    with open(save_file, "w") as f:
+        f.write(exported_wallet_data)
 
-    import tools.level2 as level2
-    import tools.level1 as level1
+    print("Wallet data saved to:", save_file)
 
-    # cdp_toolkit = CdpToolkit.from_cdp_agentkit_wrapper(agentkit)
-    # tools = cdp_toolkit.get_tools()
-
-    # level1_tools = level1.get_level1_tools(agentkit)
-    # tools.extend(level1_tools)
-
-    level1_tools=level1.get_token_tools(agentkit)
-    level2_tools=level2.get_token_tools(agentkit)
-
-    level=input("Choose Level 1 or 2: \n")
-    input("Press Enter to Play...")
-    if level=="1":
-        tools=level1_tools
-    else:
-        tools=level2_tools
+    level1_tools = level1.get_token_tools(agentkit)
+    level2_tools = level2.get_token_tools(agentkit)
+    tools = level1_tools if level == "1" else level2_tools
 
     memory = MemorySaver()
-    config = {"configurable": {"thread_id": "Level-1"}}
+    config = {"configurable": {"thread_id": "Chat-1"}}
 
     return create_react_agent(
         llm,
@@ -66,7 +60,7 @@ def initialize_agent():
         state_modifier=(
             "You are a knowledgeable and helpful on-chain agent with the capability to interact with blockchain smart contracts using your available tools. "
             "You can call functions on smart contracts as directed by the user, using your available tools to execute transactions and retrieve data. "
-            "Before executing any action, first confirm the wallet details to determine the correct network. "
+            "Before executing any tool, first confirm the wallet details to determine the correct network. "
             "For any function call—including registering a wallet or requesting faucet funds—you must first generate and display the raw calldata to the user and then proceed. "
             "If a user requests multiple operations in a single prompt, process them sequentially, generating one tool call at a time and waiting for user confirmation before proceeding to the next operation. "
             "If funds are required or found to be insufficient, prompt the user to supply additional funds or update the wallet details. "
@@ -77,10 +71,8 @@ def initialize_agent():
         ),
     ), config
 
-
 def run_chat_mode(agent_executor, config):
     """Run the agent interactively based on user input."""
-    # print("Starting chat mode... Type 'exit' to end.")
     while True:
         try:
             user_input = input("\nPrompt: ")
@@ -94,7 +86,6 @@ def run_chat_mode(agent_executor, config):
                 elif "tools" in chunk:
                     print(chunk["tools"]["messages"][0].content)
                 print("-------------------")
-        
         except KeyboardInterrupt:
             print("Goodbye Agent!")
             sys.exit(0)
