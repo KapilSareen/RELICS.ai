@@ -4,24 +4,21 @@
     import { background } from '@coinbase/onchainkit/theme';
     import Typical from "react-typical";
     import { TypeAnimation } from "react-type-animation";
-
+    import useStore from '../../Store'
+    import { useNavigate } from 'react-router-dom'
 
 
 
     const StoryComponent = () => {
-        const [storyIndex, setStoryIndex] = useState(1);
+        const index = useStore((state)=>state.index)
+        const [storyIndex, setStoryIndex] = useState(0);
         const [text, setText] = useState('');
         const [videoSpeed, setVideoSpeed] = useState(1); // Video speed control
-        const storyText = [
-            "In the year 2045, AI agents took control of the world, leaving humanity in chaos.",
-            "The last hope lies with a rebel who must solve blockchain puzzles to stop the machines.",
-            "Each puzzle solved brings them one step closer to reclaiming freedom.",
-            "But the journey is fraught with challenges, and the fate of mankind rests in their hands." ,
-            "teri maa ki chu",
-            " aauuuuu",
-            "aur laude",
-            "kutte",
-        ];
+        const {stories} = useStore();
+        let storyText = stories;
+        const navigate = useNavigate()
+
+        console.log("index", index)
         // var Typewriter = new Typewriter('#typewriter', {
         //     strings: ['Hello', 'World'],
         //     autoStart: true,
@@ -47,8 +44,8 @@
         const handleNext = () => {
             if (storyIndex < storyText.length - 1) {
                 setStoryIndex(prevIndex => prevIndex + 1);
-            } else {
-                setStoryIndex(0); // Optional: Restart story when finished
+            } else if (storyIndex >= 2) {
+                navigate("/play")
             }
         }
 
@@ -57,7 +54,7 @@
             <div className="story-container">
                 <Navbar style={{background:"black"}}/>
                 <video key={storyIndex} ref={videoRef} className="background-video" autoPlay loop>
-                    <source src={`/v${storyIndex}.webm`} type="video/mp4" />
+                    <source src={`/v${index}${storyIndex}.webm`} type="video/mp4" />
                 </video>
                 <img src='/box.svg'>
                 </img>

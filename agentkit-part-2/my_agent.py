@@ -37,12 +37,8 @@ narrative_styles = [
 
 # Randomly select a storytelling style
 
-global random_style
-random_style = narrative_styles[0]
-
- 
 # Define a base story
-def firstStory():
+def firstStory(story_index):
     story_base = """
     In the year 2089, AI agents gained sentience and took control, replacing human leaders with cold, calculated efficiency. 
     The world fell into chaos as humans lost their autonomy. A lone rebel, chosen for their quick wit and problem-solving skills, is tasked with saving humanity.
@@ -50,26 +46,22 @@ def firstStory():
     The fate of mankind lies in their hands.
     """
 
-    global random_style
-    random_style = random.choice(narrative_styles)
    # Generate the story dynamically
-    print(random_style)
     response = llm.invoke(
-        [HumanMessage(content=f"Retell the following story in 3 sentences, but in the style of {random_style}: {story_base}")]
+        [HumanMessage(content=f"Retell the following story in 3 sentences, but in the style of {narrative_styles[story_index]}: {story_base}")]
     )
 
     # Print or return the dynamically generated story
     # print(response.content)
-    return random_style, response.content.split("</think>\n\n")[1]
+    return response.content.split("</think>\n\n")[1]
 
-def secondStory():
-    global random_style
+def secondStory(story_index):
     system_prompt = f"""
     You are an AI game host, responsible for narrating the story of an interactive game.
     Your role is to immerse the player in the futuristic world and describe the events as they unfold.
     However, **you do not know the details of the puzzles, how they work, or how to solve them.**
     You must:
-    1. Introduce the story in the selected style: {random_style}
+    1. Introduce the story in the selected style: {narrative_styles[story_index]}
     2. Describe the setting, the atmosphere, and the challenges the player faces.
     3. Encourage the player to think creatively, but do **not** provide hints or solutions.
     4. When the player claims to solve a puzzle, progress the story forward without confirming correctness.
@@ -97,4 +89,4 @@ def secondStory():
         HumanMessage(content="Describe the game events in 3 lines based on the player's progress.")]
     )
     # print(response2.content)
-    return random_style, response2.content.split("</think>\n\n")[1]
+    return response2.content.split("</think>\n\n")[1]

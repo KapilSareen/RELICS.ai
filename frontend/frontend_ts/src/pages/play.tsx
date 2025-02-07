@@ -3,7 +3,11 @@ import Navbar from '../components/Navbar'
 import Agent from '../components/guide'
 import './play.css'
 import Chat from '../components/chat'
+import useStore from '../../Store'
 function play() {
+  const index = useStore((state) => state.index);
+ 
+  console.log("index",index)
   return (
     <div className='play'>
     <Navbar/>
@@ -13,7 +17,7 @@ function play() {
     <button className='nav_btn'>Invite Friends</button>
     </div>
     <div className='Cover2'></div>
-    <img src='/bg1.webp' className='bg'></img>
+    <img src={`bg${index}.webp`} className='bg'></img>
     <div className='Left'>
         <h2>LEVEL 0</h2>
         <h3>Challenge Guide</h3>
