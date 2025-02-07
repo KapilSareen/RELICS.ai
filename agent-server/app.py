@@ -4,8 +4,11 @@ from flask import Flask, request, jsonify, session
 from flask_session import Session
 from langchain_core.messages import HumanMessage
 from chatbot import initialize_agent
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
 
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -23,6 +26,9 @@ def login_required(f):
 
 @app.route('/register', methods=['POST'])
 def register():
+    
+    response = jsonify({"message": "Registration successful"})
+
     if not request.is_json:
         return jsonify({"error": "Invalid request: JSON data expected"}), 400
 
@@ -45,11 +51,15 @@ def register():
             f.write(public_address)
     except Exception as e:
         return jsonify({"error": f"Failed to create user file: {str(e)}"}), 500
+    
+    return response, 200
 
-    return jsonify({"message": "Registration successful"}), 201
 
 @app.route('/login', methods=['POST'])
 def login():
+    # response = jsonify({"message": "Login successful"})
+    # response.headers.add('Set-Cookie', f'session={session.sid}; HttpOnly; SameSite=None; Secure; Path=/; Partitioned;')
+
     data = request.get_json()
     public_address = data.get('public_address')
     if not public_address:
@@ -60,7 +70,6 @@ def login():
         wallet_filename = f"wallets/wallet_{public_address}.txt"
         os.makedirs('wallets', exist_ok=True)
         session['wallet_file'] = wallet_filename
-        # Initialize the user's score to 1000 upon login.
         session['score'] = 1000
 
         return jsonify({"message": "Login successful"}), 200
@@ -146,4 +155,4 @@ def delete_session():
     return jsonify({"message": "Session and wallet file deleted successfully"}), 200
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5001)
