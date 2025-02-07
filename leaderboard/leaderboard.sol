@@ -3,8 +3,7 @@ pragma solidity ^0.8.0;
 
 contract Leaderboard {
     address public owner; 
-    mapping(address => bool) public authorizedUsers;
-    mapping(address => PlayerScore) public leaderboard; // Stores player scores
+    mapping(address => PlayerScore) public leaderboard;
 
     event ScoreSubmitted(address indexed player, uint256 score, uint256 reward, uint256 timestamp);
     event PrizePoolFunded(address indexed sender, uint256 amount);
@@ -15,28 +14,17 @@ contract Leaderboard {
         uint256 reward;
     }
 
-    constructor() {
+    constructor() payable{
+        require(msg.value > 0.05 ether, "Must send ETH to fund the prize pool");
         owner = msg.sender;
     }
 
-    modifier onlyAuthorized() {
-        require(authorizedUsers[msg.sender], "Not authorized.");
-        _;
-    }
-
-    function setAuthorizedUser(address user) public {
-        require(msg.sender == owner, "Only owner can set authorized users.");
-        authorizedUsers[user] = true;
-    }
-
-    function submitScore(uint256 _score, uint256 _reward) public onlyAuthorized {
-        require(_score > 0, "Score must be greater than 0");
-
-        uint256 old_reward = leaderboard[msg.sender].reward;
-
+    function submitScore(uint256 _score) public {
+        require(_score > 0 && _score < 1000, "Score must be greater than 0");
+        uint256 _reward = _score * address(this).balance / 10**6;
         leaderboard[msg.sender] = PlayerScore({
             score: _score,
-            reward: _reward + old_reward
+            reward: _reward
         });
 
         emit ScoreSubmitted(msg.sender, _score, _reward, block.timestamp);
@@ -52,14 +40,13 @@ contract Leaderboard {
         require(reward > 0, "No rewards available for withdrawal");
         require(address(this).balance >= reward, "Not enough funds");
 
-        leaderboard[msg.sender].reward = 0;
         (bool success, ) = payable(msg.sender).call{value: reward}("");
         require(success, "Withdraw failed");
-
+        leaderboard[msg.sender].reward = 0;
         emit RewardWithdrawn(msg.sender, reward);
     }
 
     receive() external payable {
-        emit PrizePoolFunded(msg.sender, msg.value); // Log funding for The Graph
+        emit PrizePoolFunded(msg.sender, msg.value);
     }
 }

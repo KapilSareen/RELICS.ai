@@ -8,9 +8,9 @@ dataSources:
     name: Leaderboard
     network: base-sepolia
     source:
-      address: "0xC93BD599e13AceCa65616394a01281fd59e5e86F"
+      address: "0xa17Abf7B2cc3fF2Da3dAAFa4D08EAA9496773e59"
       abi: Leaderboard
-      startBlock: 21504670
+      startBlock: 21587497
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -18,7 +18,7 @@ dataSources:
       entities:
         - PrizePoolFunded
         - RewardWithdrawn
-        - Player
+        - ScoreSubmitted
       abis:
         - name: Leaderboard
           file: ./abis/Leaderboard.json
