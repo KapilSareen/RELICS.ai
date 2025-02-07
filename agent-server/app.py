@@ -9,6 +9,9 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
+# app.config['SESSION_COOKIE_HTTPONLY'] = False
+# app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # Allow cross-site usage
+# app.config['SESSION_COOKIE_SECURE'] = True  # Required for SameSite=None
 
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SESSION_TYPE'] = 'filesystem'
