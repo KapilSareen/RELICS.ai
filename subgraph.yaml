@@ -1,4 +1,4 @@
-specVersion: 1.0.0
+specVersion: 1.1.0
 indexerHints:
   prune: auto
 schema:
@@ -8,9 +8,9 @@ dataSources:
     name: Leaderboard
     network: base-sepolia
     source:
-      address: "0xe44053B81a67D224438143476ff6cdEe1A6Cf3C9"
+      address: "0xa17Abf7B2cc3fF2Da3dAAFa4D08EAA9496773e59"
       abi: Leaderboard
-      startBlock: 21590036
+      startBlock: 21587497
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -18,7 +18,7 @@ dataSources:
       entities:
         - PrizePoolFunded
         - RewardWithdrawn
-        - ScoreSubmitted
+        - Player
       abis:
         - name: Leaderboard
           file: ./abis/Leaderboard.json
