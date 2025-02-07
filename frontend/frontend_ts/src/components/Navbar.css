@@ -1,0 +1,44 @@
+.Navbar {
+    width: 100vw;
+    height: 7%;
+    background-color: rgba(255, 254, 254, 0.134);
+    backdrop-filter: blur(10px);
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    button {
+        background-color:rgb(124, 99, 29) ;
+        text-align: center;
+        /* margin-left: 5%; */
+        /* width: 10vw; */
+        padding: 0px 4px;
+        margin-top: 8%;
+        margin-right: 10%;
+        border-radius: 10px;
+        color: black;
+        z-index: 20;
+        font-size: 1vw;
+        font-family: "Tektur", serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
+        font-style: normal;
+        font-variation-settings:
+          "wdth" 100;
+    }
+    button:hover{
+        background-color:rgb(227, 169, 10) ;
+
+    }
+}
+.Logo {
+    width: 30%;
+    text-align: center;
+    color: white;
+    height: 100%;
+    font-size: 2rem;
+    font-family: "Iceberg", serif;
+    font-weight: 400;
+    font-style: normal;
+}

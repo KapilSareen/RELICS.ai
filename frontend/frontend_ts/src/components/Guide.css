@@ -1,0 +1,47 @@
+.Guide {
+    position: absolute;
+    top: 50%;
+    margin-top: 60%;
+    display: flex;
+    gap: 3vw;
+}
+.guide_detail{
+   
+    div {
+        background-color: black;
+        width: 7vw;
+        border-radius: 30px;
+        border: 1px solid rgb(124, 99, 29) ;
+        text-align: center;
+        margin: 3vw auto;
+    }
+}
+.guide_img {
+    
+        position: relative;
+        height: 7vw;
+        width: 7vw;
+        border-radius: 50%;
+        border: 1px solid rgb(124, 99, 29) ;
+    
+}
+.guide_text{
+        width: 35vw;
+        height: auto;
+        background-color: black;
+        z-index: 20;
+        border-radius: 10px;
+        border: 1px solid rgb(124, 99, 29) ;
+
+        p {
+            color: white;
+            font-size: 1vw;
+            font-family: "Tektur", serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: normal;
+            font-variation-settings:
+              "wdth" 100;
+            padding: 1vw;
+        }
+    }
