@@ -5,6 +5,7 @@ import Story from './components/StoryComponent'
 import Play from './pages/play'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css'
+import Leaderboard from './components/Leaderboard'
 import Chat from './components/chat'
 
 

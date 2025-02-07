@@ -4,9 +4,14 @@ import Agent from '../components/guide'
 import './play.css'
 import Chat from '../components/chat'
 import useStore from '../../Store'
+import { TransactionDefault } from "@coinbase/onchainkit/transaction"
+// import Transaction from '../components/transaction'
+import {calls} from '../calls/calls3'
+
 function play() {
-  const index = useStore((state) => state.index);
  
+  const index = useStore((state) => state.index);
+
   console.log("index",index)
   return (
     <div className='play'>
@@ -27,6 +32,8 @@ function play() {
     <div className='down'>
        <h3 >Have you solved this challenge?</h3>
         <button className='sol-btn'>Solved</button></div>
+        {/* <Transaction/> */}
+        {/* <TransactionDefault chainId={84532} calls={calls} className='iswon' /> */}
     <Chat/>
 </div>
   )

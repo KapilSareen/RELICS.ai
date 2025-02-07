@@ -11,7 +11,7 @@ function Navbar() {
   return (
     <div className='Navbar'>
       <div className='Logo'>
-        RELICS.ai | AI + Web3 challenge
+        RELICS.ai
       </div>
       {/* <WalletComponents/> */}
       <WalletIsland />

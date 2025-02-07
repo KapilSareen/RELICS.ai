@@ -17,7 +17,7 @@
     }
     h1 {
         position: absolute;
-        top: 20%;
+        top: 35%;
         width: 100vw;
         text-align: center;
         color: rgb(238, 177, 11);
@@ -33,12 +33,12 @@
     }
     p{
         position: absolute;
-        top: 35%;
-        width: 100vw;
+        top: 50%;
+        width: 40vw;
         text-align: center;
         color: rgb(124, 99, 29);
         z-index: 20;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         font-family: "Tektur", serif;
         font-optical-sizing: auto;
         font-weight: 600;
@@ -47,18 +47,17 @@
           "wdth" 100;
         text-decoration: underline;
     }
-    .btn {
+    .btns {
       position: absolute;
-      top: 45%;
-      width: 200px;
+      top: 65%;
+      width: 30vw;
       padding: 3px;
       display: flex;
-      background-color:rgb(124, 99, 29) ;
-      border-radius: 10px;
+     
       /* text-align: center; */
-      color: rgb(255, 255, 255);
+      
       z-index: 20;
-      font-size: 1.5rem;
+      font-size: 1rem;
       font-family: "Tektur", serif;
       font-optical-sizing: auto;
       font-weight:400;
@@ -68,16 +67,23 @@
       text-decoration: underline;
       justify-content: space-around;
       align-items: center;
-      img{
-        flex: 1;
-        transform: translateX(80px);
-        height: 30px;
-        width: 30px;
-        align-items: center;
-        justify-content: center;
-      }
+    .btn{
+      width: 12vw;
+      background-color:rgb(124, 99, 29) ;
+      border-radius: 10px;
+      padding: 5px;
+      color: black;
     }
-    h2 {
+    .btn2 {
+      width: 12vw;
+      background-color:transparent ;
+      border: 1px solid rgb(124, 99, 29);
+      border-radius: 10px;
+      padding: 5px;
+      color: rgb(255, 255, 255);
+    }
+    }
+    /* h2 {
         position: absolute;
         top: 60%;
         width: 100vw;
@@ -92,8 +98,8 @@
         font-variation-settings:
           "wdth" 100;
         text-decoration: underline;
-    }
-    ul {
+    } */
+    /* ul {
         position: absolute;
         top: 70%;
 
@@ -110,7 +116,7 @@
           "wdth" 100;
         text-decoration: underline;
         list-style-type: square;
-    }
+    } */
 }
 .Cover {
     width: 100vw;
