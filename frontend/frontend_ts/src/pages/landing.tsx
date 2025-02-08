@@ -3,13 +3,13 @@ import './landing.css'
 import Navbar from  '../components/Navbar'
 import { useNavigate } from 'react-router-dom'
 import useStore from '../../Store'
-import Leaderboard from '../components/Leaderboard'; // Import the Leaderboard component
+import Leaderboard from '../components/Leaderboard'; 
 
 function landing() {
   const navigate = useNavigate()
-  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false); // ✅ Controls leaderboard visibility
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false); 
 
-  const index = useStore((state) => state.index); // ✅ This will force a re-render
+  const index = useStore((state) => state.index); 
   const setIndex = useStore((state) => state.setIndex);
   const { stories, setStories, } = useStore();
   const { stories2, setStories2} = useStore();
@@ -17,6 +17,7 @@ function landing() {
     const response = await fetch(`${import.meta.env.VITE_PUBLIC_SERVER}/first`);
     const data = await response.json();
     setStories(data);
+    console.log(data)
 } 
 const story2 = async() =>{
   const response = await fetch(`${import.meta.env.VITE_PUBLIC_SERVER}/second`);

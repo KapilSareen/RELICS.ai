@@ -12,6 +12,7 @@ import type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
 import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
 import { calls } from '../calls/calls'; 
+import '../pages/play.css'
  
 export default function TransactionComponents() {
   const { address } = useAccount();

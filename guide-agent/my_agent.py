@@ -20,14 +20,6 @@ llm = ChatGroq(
     temperature=0.1,  # Adjust for variation
 )
 
-# Initialize CDP AgentKit wrapper
-cdp = CdpAgentkitWrapper()
-
-# Create toolkit from wrapper
-cdp_toolkit = CdpToolkit.from_cdp_agentkit_wrapper(cdp)
-
-# Get all available tools
-tools = cdp_toolkit.get_tools()
 # Define different narrative styles
 narrative_styles = [
     "Tell the story like an ancient epic poem.",

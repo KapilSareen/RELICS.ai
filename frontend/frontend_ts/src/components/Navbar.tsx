@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Navbar.css';
-import WalletComponents from './Wallet';
+import {DraggableWalletAdvanced} from './Wallet';
 import '@coinbase/onchainkit/styles.css';
 import { WalletIsland } from '@coinbase/onchainkit/wallet';
 
@@ -14,6 +14,7 @@ function Navbar() {
         RELICS.ai
       </div>
       {/* <WalletComponents/> */}
+      {/* <DraggableWalletAdvanced/> */}
       <WalletIsland />
     </div>
   );

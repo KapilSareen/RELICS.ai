@@ -153,3 +153,22 @@
     width: 10vw;
     margin-left: 5%;
 }
+.toggler {
+    position: absolute;
+    top: 8%;
+    z-index: 40;
+    width: 10vw;
+    margin-left: 70%;
+    background-color:rgb(124, 99, 29) ;
+    text-align: center;
+    border-radius: 10px;
+    color: black;
+    z-index: 20;
+    font-size: 1vw;
+    font-family: "Tektur", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
