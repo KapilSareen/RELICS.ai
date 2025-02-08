@@ -20,18 +20,20 @@
 /* Chat Header */
 .chat-header {
     background: transparent;
+    width: 100%;
     color: rgb(238, 177, 11) ;
     padding: 10px 30px;
     text-align: left;
     font-weight: bold;
-    font-size: 1.2vw;
+    font-size: 1vw;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     button{
-        
+            width: 10vw;
             background-color:rgb(124, 99, 29) ;
             text-align: center;
-            margin-left: 5%;;
+            /* margin-left: 5%;; */
             /* width: 10vw; */
             padding: 0px 4px;
             /* margin-top: 3%; */
@@ -47,6 +49,10 @@
               "wdth" 100;
         
         
+    }
+    div{
+        width: 10vw;
+        text-align: center;
     }
     button:hover{
         background-color:rgb(227, 169, 10) ;
@@ -168,5 +174,15 @@
     cursor: not-allowed;
 }
 .contract_text {
-    color: white;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.contract_text::-webkit-scrollbar{
+    display: none;
+}
+.highlight::-webkit-scrollbar{
+    display: none;
 }

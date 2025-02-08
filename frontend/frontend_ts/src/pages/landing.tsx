@@ -52,6 +52,7 @@ const story2 = async() =>{
         <Navbar/>
         <div className='Cover'></div>
         <img src={`bg${index}.webp`}></img>
+        <div className='content'>
         <h1>RELICS: The Lost Protocol</h1>
         <p>Outsmart AI agents in a series of smart contract hacking puzzles. Are you ready to challenge the future of blockchain security?</p>
         <div className='btns'>
@@ -59,7 +60,7 @@ const story2 = async() =>{
         <h3>Get Started</h3>
         </button>
         <button className='btn2' onClick={() => setIsLeaderboardOpen(true)}>Leaderboard</button>
-        </div>
+        </div></div>
         {isLeaderboardOpen && <Leaderboard isOpen={isLeaderboardOpen} onClose={() => setIsLeaderboardOpen(false)} />}
 
     </div>
