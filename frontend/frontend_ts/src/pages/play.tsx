@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect} from 'react'
+import React, {useCallback, useState, useEffect, useRef} from 'react'
 import Navbar from '../components/Navbar'
 import Agent from '../components/guide'
 import './play.css'
@@ -20,7 +20,7 @@ function play() {
   const [agentAdress, setAgentAdress] = useState("");
   const [winner, setWinner] =useState(false);
     const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false); 
-  
+    const secondButtonRef = useRef(null);
   const handleOnStatus = useCallback((status: LifecycleStatus) => {
     console.log('LifecycleStatus', status);
   }, []);
@@ -29,6 +29,13 @@ function play() {
     setContract((prev) => !prev);
   }
   console.log("index",index)
+
+  const handleFirstButtonClick = () => {
+    if (secondButtonRef.current) {
+      secondButtonRef.current.click(); // Programmatically click the second button
+    }
+  };
+
 
         const fetchAgentAddress = async () => {
             const response = await fetch(`${import.meta.env.VITE_PUBLIC_AGENT_URL}/wallet_details`, {
@@ -96,11 +103,11 @@ function play() {
         <p>Agent Address: {agentAdress}</p>
         <p>contract Address: 0xFF9c544cFFe5d8d647085d050f3c9DBF1bf0AdD3</p>
        </div>)}
-       <button disabled={!winner} className='withdraw'>{winner?"Withdraw":"Unsolved"}</button>
+       <button disabled={!winner} className='withdraw' onClick={handleFirstButtonClick}>{winner?"Withdraw":"Unsolved"}</button>
     </div>
         {/* <Transaction/> */}
         <button onClick={toggle} className='toggler'>{contract?"Show AI":"ShowContract"}</button>
-        {/* <TransactionDefault chainId={84532} calls={calls} onStatus={handleOnStatus} className='iswon' /> */}
+        <TransactionDefault chainId={84532} calls={calls} onStatus={handleOnStatus} ref={secondButtonRef} className='isWon' />
     <Chat contract={contract}/>
     {isLeaderboardOpen && <Leaderboard isOpen={isLeaderboardOpen} onClose={() => setIsLeaderboardOpen(false)} />}
 
