@@ -60,4 +60,3 @@ export function handleScoreSubmitted(event: ScoreSubmittedEvent): void {
 
   entity.save()
 }
-

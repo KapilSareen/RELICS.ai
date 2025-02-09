@@ -7,3 +7,4 @@ venv
 flask_session
 users/
 wallets/
+__pycache__/

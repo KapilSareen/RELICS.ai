@@ -50,3 +50,4 @@ dataSources:
         - event: Win(indexed address)
           handler: handleWin
       file: ./src/contract.ts
+
