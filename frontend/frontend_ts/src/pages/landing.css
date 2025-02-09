@@ -40,7 +40,7 @@
         padding: 0;
         margin: 0;
         text-align: center;
-        color: rgb(124, 99, 29);
+        color: white;
         z-index: 20;
         font-size: 1.1vw;
         font-family: "Tektur", serif;
@@ -73,7 +73,7 @@
       align-items: center;
     .btn{
       width: 12vw;
-      background-color:rgb(124, 99, 29) ;
+      background-color:rgb(238, 177, 11) ;
       border-radius: 10px;
       padding: 5px;
       color: black;
@@ -135,7 +135,7 @@
 .Cover {
     width: 100vw;
     height: 100dvh;
-    background-color: rgba(0, 0, 0, 0.804);
+    background-color: rgba(0, 0, 0, 0.711);
     position: absolute;
     top: 0;
     left: 0;

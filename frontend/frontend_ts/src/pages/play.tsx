@@ -83,14 +83,20 @@ function play() {
     <div className='Cover2'></div>
     <img src={`bg${index}.webp`} className='bg'></img>
     <div className='Left'>
-        <h2>LEVEL 0</h2>
+        <h2>LEVEL 1</h2>
         <h3>Challenge Guide</h3>
         <Agent/>
      
     </div>
     <div className='down'>
-       <h3 >{(winner)?"You have Won":"Still not won"}</h3>
-        {/* <button className='sol-btn'>Solved</button> */}
+       {/* <h3 >{(winner)?"You have Won":"Still not won"}</h3> */}
+       {winner?(<div className='win2'>
+        <p>YOU WON</p>
+       </div>):(<div className='win'>
+        <p>Agent Address: {agentAdress}</p>
+        <p>contract Address: 0xFF9c544cFFe5d8d647085d050f3c9DBF1bf0AdD3</p>
+       </div>)}
+       <button disabled={!winner} className='withdraw'>{winner?"Withdraw":"Unsolved"}</button>
     </div>
         {/* <Transaction/> */}
         <button onClick={toggle} className='toggler'>{contract?"Show AI":"ShowContract"}</button>

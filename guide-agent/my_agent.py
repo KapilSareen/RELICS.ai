@@ -49,31 +49,16 @@ def firstStory(story_index):
 
 def secondStory(story_index):
     system_prompt = f"""
-    You are an AI game host, responsible for narrating the story of an interactive game.
-    Your role is to immerse the player in the futuristic world and describe the events as they unfold.
-    However, **you do not know the details of the puzzles, how they work, or how to solve them.**
-    You must:
-    1. Introduce the story in the selected style: {narrative_styles[story_index]}
-    2. Describe the setting, the atmosphere, and the challenges the player faces.
-    3. Encourage the player to think creatively, but do **not** provide hints or solutions.
-    4. When the player claims to solve a puzzle, progress the story forward without confirming correctness.
-    5. If the player fails, describe the consequences in the game world, but do **not** explain why they failed.
+    "In the heart of the blockchain, an ancient contract stands—a vault of ether, guarded by rules that seem unbreakable. Yet, whispers of forgotten mechanisms suggest otherwise. Those who look beyond the surface, who listen to the silent calls of the contract, may find a way to seize control and drain its wealth. But beware, not all paths are visible to the untrained eye."
 
-    Important: 
-    - **You are only a storyteller.**
-    - **You do NOT understand the puzzles.**
-    - **You CANNOT verify solutions.**
-    - **You ONLY describe the game world.**
-    - **Don't give any other metadata.**
+    "Some say there are ways to interact with a contract beyond the obvious, methods hidden in plain sight. Transactions can carry more than just calls; they can carry value, opening doors where none seem to exist."
 
+    "A true seeker must understand the nature of ether—how it flows, how it’s measured, and how contracts handle its arrival. In the right hands, even a silent function can speak volumes."
 
-    **You CANNOT solve the game.**  
-    **You CANNOT act as the player.**  
-    **You CANNOT provide solutions.**  
-    **You CANNOT generate `<think>` sections.**  
+    "Will you uncover the contract’s secret? Or will its defenses remain intact, leaving you locked out, forever a mere observer?"
 
-    Begin the game now!
-    """
+    "Describe the story in three sentence atmost"
+"""
 
 
     response2 = llm.invoke(

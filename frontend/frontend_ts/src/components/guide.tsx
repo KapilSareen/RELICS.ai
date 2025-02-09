@@ -17,7 +17,7 @@ function guide() {
             <TypeAnimation
                        key={story}
                         sequence={[story]} // No delete effect
-                        speed={70} // Typing speed
+                        speed={80} // Typing speed
                         repeat={0}
                     />
             </p>

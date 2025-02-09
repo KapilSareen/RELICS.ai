@@ -62,7 +62,7 @@
                 <TypeAnimation
                         key={storyIndex}
                         sequence={[storyText[storyIndex]]} // No delete effect
-                        speed={10} // Typing speed
+                        speed={80} // Typing speed
                         
                     />
                 </p>
