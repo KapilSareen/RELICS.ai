@@ -6,23 +6,22 @@ import {
   beforeAll,
   afterAll
 } from "matchstick-as/assembly/index"
-import { Address, BigInt } from "@graphprotocol/graph-ts"
-import { PrizePoolFunded } from "../generated/schema"
-import { PrizePoolFunded as PrizePoolFundedEvent } from "../generated/Leaderboard/Leaderboard"
-import { handlePrizePoolFunded } from "../src/leaderboard"
-import { createPrizePoolFundedEvent } from "./leaderboard-utils"
+import { Address } from "@graphprotocol/graph-ts"
+import { Win } from "../generated/schema"
+import { Win as WinEvent } from "../generated/Contract/Contract"
+import { handleWin } from "../src/contract"
+import { createWinEvent } from "./contract-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0
 
 describe("Describe entity assertions", () => {
   beforeAll(() => {
-    let sender = Address.fromString(
+    let player = Address.fromString(
       "0x0000000000000000000000000000000000000001"
     )
-    let amount = BigInt.fromI32(234)
-    let newPrizePoolFundedEvent = createPrizePoolFundedEvent(sender, amount)
-    handlePrizePoolFunded(newPrizePoolFundedEvent)
+    let newWinEvent = createWinEvent(player)
+    handleWin(newWinEvent)
   })
 
   afterAll(() => {
@@ -32,21 +31,15 @@ describe("Describe entity assertions", () => {
   // For more test scenarios, see:
   // https://thegraph.com/docs/en/developer/matchstick/#write-a-unit-test
 
-  test("PrizePoolFunded created and stored", () => {
-    assert.entityCount("PrizePoolFunded", 1)
+  test("Win created and stored", () => {
+    assert.entityCount("Win", 1)
 
     // 0xa16081f360e3847006db660bae1c6d1b2e17ec2a is the default address used in newMockEvent() function
     assert.fieldEquals(
-      "PrizePoolFunded",
+      "Win",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "sender",
+      "player",
       "0x0000000000000000000000000000000000000001"
-    )
-    assert.fieldEquals(
-      "PrizePoolFunded",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "amount",
-      "234"
     )
 
     // More assert options:

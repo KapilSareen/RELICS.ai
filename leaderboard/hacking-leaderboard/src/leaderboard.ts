@@ -18,7 +18,7 @@ export function handlePrizePoolFunded(event: PrizePoolFundedEvent): void {
   entity.amount = event.params.amount
 
   entity.blockNumber = event.block.number
-  entity.timestamp = event.block.timestamp
+  entity.blockTimestamp = event.block.timestamp
   entity.transactionHash = event.transaction.hash
 
   entity.save()
@@ -60,3 +60,4 @@ export function handleScoreSubmitted(event: ScoreSubmittedEvent): void {
 
   entity.save()
 }
+

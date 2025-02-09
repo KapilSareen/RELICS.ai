@@ -3,7 +3,7 @@ type PrizePoolFunded @entity(immutable: true) {
   sender: Bytes! # address
   amount: BigInt! # uint256
   blockNumber: BigInt!
-  timestamp: BigInt!
+  blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
 
@@ -21,4 +21,12 @@ type Player @entity(immutable: false) {
   score: BigInt!
   reward: BigInt!
   timestamp: BigInt!
+}
+
+type Win @entity(immutable: true) {
+  id: Bytes!
+  player: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
 }
