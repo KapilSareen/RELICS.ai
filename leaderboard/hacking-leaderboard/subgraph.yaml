@@ -30,3 +30,24 @@ dataSources:
         - event: ScoreSubmitted(indexed address,uint256,uint256,uint256)
           handler: handleScoreSubmitted
       file: ./src/leaderboard.ts
+  - kind: ethereum
+    name: Contract
+    network: base-sepolia
+    source:
+      address: "0xFF9c544cFFe5d8d647085d050f3c9DBF1bf0AdD3"
+      abi: Contract
+      startBlock: 21636979
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Win
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: Win(indexed address)
+          handler: handleWin
+      file: ./src/contract.ts
+

@@ -22,3 +22,11 @@ type Player @entity(immutable: false) {
   reward: BigInt!
   timestamp: BigInt!
 }
+
+type Win @entity(immutable: true) {
+  id: Bytes!
+  player: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
