@@ -15,7 +15,7 @@ contract Leaderboard {
     }
 
     constructor() payable{
-        require(msg.value > 0.05 ether, "Must send ETH to fund the prize pool");
+        require(msg.value > 0.003 ether, "Must send ETH to fund the prize pool");
         owner = msg.sender;
     }
 

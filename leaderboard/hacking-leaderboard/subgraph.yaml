@@ -8,9 +8,9 @@ dataSources:
     name: Leaderboard
     network: base-sepolia
     source:
-      address: "0xC93BD599e13AceCa65616394a01281fd59e5e86F"
+      address: "0x6CCBBA557124e9D43cD2cbe89083bA325900dbD6"
       abi: Leaderboard
-      startBlock: 21504670
+      startBlock: 21674784
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
