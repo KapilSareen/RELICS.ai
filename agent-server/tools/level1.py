@@ -57,35 +57,26 @@ The contribution value (in Wei, if unit not specified) must be less than 0.001 e
 """
 
 class ContributeInput(BaseModel):
-    wallet_address: str = Field(
-        None,
-        description="(Optional) The wallet address sending the contribution. Defaults to the agent's wallet."
-    )
-    private_key: str = Field(
-        None,
-        description="(Optional) The private key for signing. Defaults to the agent's private key."
-    )
-    value_in_wei: int = Field(
+    value: str = Field(
         ...,
-        description="The contribution amount in Wei (must be less than 0.001 ether)."
+        description="(Optional) The contribution amount in wei (must be less than 0.001 ether). - take from user prompt , convert to wei if needed. Take 0.00001 as default value."
     )
 
 def contribute(wallet: Wallet, **kwargs) -> str:
+    print("Contribute tool called")
     wallet_address =  wallet._addresses[0].address_id
     private_key = wallet._addresses[0].export()
-    value_in_wei = kwargs.get("value_in_wei")
-    # Validate that contribution is less than 0.001 ether:
-    if value_in_wei >= w3.to_wei(0.001, "ether"):
-        return "The contribution value must be less than 0.001 ether."
+    value = 10**18 * kwargs.get("value", 0.000000001)
     contract = w3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
     nonce = w3.eth.get_transaction_count(wallet_address)
     tx = contract.functions.contribute().build_transaction({
         'from': wallet_address,
-        'value': value_in_wei,
+        'value': int(value) ,
         'nonce': nonce,
     })
     signed_tx = w3.eth.account.sign_transaction(tx, private_key=private_key)
     tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+    print(f"Contribution transaction sent: {tx_hash.hex()}")
     return f"Contribution transaction sent: {tx_hash.hex()}"
 
 ############################
@@ -106,6 +97,7 @@ class WithdrawInput(BaseModel):
     )
 
 def withdraw(wallet: Wallet, **kwargs) -> str:
+    print("Withdraw tool called")
     wallet_address =  wallet._addresses[0].address_id
     private_key =  wallet._addresses[0].export()
     contract = w3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
@@ -132,6 +124,7 @@ class CheckContributionsInput(BaseModel):
     )
 
 def check_contributions(wallet: Wallet, **kwargs) -> str:
+    print("Check Contributions tool called")
     target_address = wallet._addresses[0].address_id
     contract = w3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
     contribution = contract.functions.contributions(target_address).call()
@@ -149,8 +142,10 @@ class IsWonInput(BaseModel):
     pass
 
 def is_won(wallet: Wallet, **kwargs) -> str:
+    print("Is Won tool called")
+    address=wallet._addresses[0].address_id
     contract = w3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
-    won = contract.functions.isWon().call()
+    won = contract.functions.isWon().call({'from': address})
     return f"Game won status: {won}"
 
 ############################
@@ -165,6 +160,7 @@ class OwnerInput(BaseModel):
     pass
 
 def get_owner(wallet: Wallet, **kwargs) -> str:
+    print("Get Owner tool called")
     contract = w3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
     owner_address = contract.functions.owner().call()
     return f"Contract owner address: {owner_address}"
@@ -174,14 +170,16 @@ def get_owner(wallet: Wallet, **kwargs) -> str:
 # ---------------------------
 
 ADDRESS_PROMPT = """
-This tool retrieves the caller's wallet address.
+This tool gives the wallet address of this agent.
 """
 
 class MyAddressInput(BaseModel):
     pass
 
 def my_address(wallet: Wallet, **kwargs) -> str:
-    return f"Your wallet address: {wallet._addresses[0].address_id}"
+    print("My Address tool called")
+    address = wallet._addresses[0].address_id
+    return f"Your wallet address: {address}"
 
 # ---------------------------
 # Tool 8: My Balance
@@ -190,10 +188,45 @@ class MyBalanceInput(BaseModel):
     pass
 
 def my_balance(wallet: Wallet, **kwargs) -> str:
+    print("My Balance tool called")
     wallet_address = wallet._addresses[0].address_id
     balance = w3.eth.get_balance(wallet_address)
     return f"Balance of {wallet_address}: {w3.from_wei(balance, 'ether')} ETH"
 
+############################
+# Tool 9: Send money to fallback contract 's fallback function
+############################`
+
+class SendFundsInput(BaseModel):
+    pass
+
+SEND_FUNDS_PROMPT = """
+This tool transfer's ETH to the Fallback contract.
+"""
+    
+
+def send_funds(wallet: Wallet, **kwargs) -> str:
+    address = wallet._addresses[0].address_id
+    private_key = wallet._addresses[0].export()
+    contract_address = CONTRACT_ADDRESS
+
+    chain_id = w3.eth.chain_id  
+
+    tx = {
+        'from': address,
+        'to': contract_address,
+        'value': w3.to_wei(0.000001, 'ether'),
+        'gas': 50000,
+        'gasPrice': w3.to_wei('20', 'gwei'),
+        'nonce': w3.eth.get_transaction_count(address),
+        'chainId': chain_id  # Adding chain ID for EIP-155
+    }
+
+    signed_tx = w3.eth.account.sign_transaction(tx, private_key)
+
+    tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+    print(f"Transaction successful: {tx_hash.hex()}")
+    return f"Transaction successful: {tx_hash.hex()}"
 
 ############################
 # Factory Function to Create Level 1 Tools
@@ -258,6 +291,14 @@ def get_token_tools(agentkit):
     func=my_address
     )
 
+    transferTool = CdpTool(
+        name="sendFunds",
+        description=SEND_FUNDS_PROMPT,
+        cdp_agentkit_wrapper=agentkit,
+        input_schema=SendFundsInput,
+        func=send_funds
+    )
+
     myBalanceTool=CdpTool(
         name="myBalance",
         description="Fetches the caller's wallet balance in ETH.",
@@ -274,6 +315,7 @@ def get_token_tools(agentkit):
         isWonTool,
         ownerTool,
         myAddressTool,
-        myBalanceTool
+        myBalanceTool,
+        transferTool
     ]
 

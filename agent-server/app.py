@@ -110,10 +110,11 @@ def chat():
     try:
         messages = [HumanMessage(content=prompt)]
         for chunk in agent_executor.stream({"messages": messages}, config):
-            if "agent" in chunk:
-                response_text += chunk["agent"]["messages"][0].content + "\n"
-            elif "tools" in chunk:
+            if "tools" in chunk:
                 response_text += chunk["tools"]["messages"][0].content + "\n"
+                break
+            elif "agent" in chunk:
+                response_text += chunk["agent"]["messages"][0].content + "\n"
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -158,4 +159,4 @@ def delete_session():
     return jsonify({"message": "Session and wallet file deleted successfully"}), 200
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5001)
+    app.run(host="0.0.0.0", port=5002)
